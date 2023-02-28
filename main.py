@@ -241,7 +241,7 @@ class Map:
                 if i < 2 or i > self.h - 3 or j < 2 or j > self.w - 3:
                     # genere arbre du contour
                     self.entities.append(Obstacle(i, j, id=2))
-                elif random.random() < 0.15:
+                elif random.random() < 0.10:
                     # generation d'obstacle
                     self.entities.append(Obstacle(i, j))
                 elif 0.3 < random.random() < 0.4 and self.nbChild < MAX_CHILD:
