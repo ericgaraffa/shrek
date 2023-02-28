@@ -295,7 +295,7 @@ def main():
         print(f"turn {turn}:")
         map.move_entities()
         map.show_map()
-        # time.sleep(1)
+        time.sleep(1)
     if map.nbChild == 0:
         print("<===WIN===>")
         print(map.nbChild, "children left")
