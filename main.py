@@ -6,7 +6,7 @@ import time
 MAP_HEIGHT = 16
 MAP_WIDTH = 16
 MAX_CHILD = 10
-DIST_SHREK = 2
+DIST_hydeSHREK = 2
 
 directions = {"right": (0, 1), "left": (0, -1), "up": (-1, 0), "down": (1, 0)}
 
@@ -25,7 +25,7 @@ entities = {
     11: "poussière",
     12: "ossement",
     13: "rien",
-    14: "shrek"
+    14: "hydeShrek"
 }
 
 visuel = {
@@ -35,7 +35,7 @@ visuel = {
     "rocher": "■",
     "eau": "■",
     "enfant": "e",
-    "shrek": "X",
+    "hydeShrek": "X",
     "standard": "C",
     "fille": "C",
     "garçon": "C",
@@ -62,7 +62,7 @@ class Entity:
     def getVisuel(self):
         return visuel[entities[self.id]]
 
-    def move(self, carte, xShrek=None, yShrek=None):
+    def move(self, carte, xhydeShrek=None, yhydeShrek=None):
         return
 
     def death(self):
@@ -80,8 +80,8 @@ class Child(Entity):
     def __str__(self):
         return f"Child: x={self.x} y={self.y} visuel:'{self.getVisuel()}' "
 
-    def move(self, carte, xShrek, yShrek):
-        if abs(self.x - xShrek) + abs(self.y - yShrek) <= DIST_SHREK:
+    def move(self, carte, xhydeShrek, yhydeShrek):
+        if abs(self.x - xhydeShrek) + abs(self.y - yhydeShrek) <= DIST_hydeSHREK:
             return
 
         if self.is_dead == 1:
@@ -111,14 +111,14 @@ class Child(Entity):
         return
 
 
-class Shrek(Entity):
+class hydeShrek(Entity):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.id = 14
         self.cross = 0
 
     def __str__(self):
-        return f"Shrek: x={self.x} y={self.y} visuel:'{self.getVisuel()}' "
+        return f"hydeShrek: x={self.x} y={self.y} visuel:'{self.getVisuel()}' "
 
     def eat(self, Child):
         Child.death()
@@ -127,7 +127,7 @@ class Shrek(Entity):
     def getPos(self):
         return self.x, self.y
 
-    def move(self, carte, xShrek=None, yShrek=None, children_positions=[]):
+    def move(self, carte, xhydeShrek=None, yhydeShrek=None, children_positions=[]):
         print("nb children =", len(children_positions))
         h, w = carte.h, carte.w
 
@@ -137,7 +137,7 @@ class Shrek(Entity):
 
             # le plus proche est le premier
             closest = children_positions[0]
-            print("> Enfant le plus proche en:", closest, "shrek pos:", self.x, self.y)
+            print("> Enfant le plus proche en:", closest, "hydeShrek pos:", self.x, self.y)
 
             # ecart à l'enfant
             dx = closest[0] - self.x
@@ -152,8 +152,8 @@ class Shrek(Entity):
                 dy = 0
                 print("test move en ", self.x + dx, self.y + dy)
                 if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy,
-                                                                                       shrek=True):
-                    print("Shrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
+                                                                                       hydeShrek=True):
+                    print("hydeShrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
                     self.x += dx
                     self.y += dy
                     return
@@ -164,8 +164,8 @@ class Shrek(Entity):
                 dy = int(dy / abs(dy))
                 print("test move en ", self.x + dx, self.y + dy)
                 if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy,
-                                                                                       shrek=True):
-                    print("Shrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
+                                                                                       hydeShrek=True):
+                    print("hydeShrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
                     self.x += dx
                     self.y += dy
                     return
@@ -174,15 +174,15 @@ class Shrek(Entity):
         random.shuffle(l)
         for dx, dy in l:
             # print("check pos:", self.x + dx, self.y + dy,
-            #       0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy, shrek=True))
+            #       0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy, hydeShrek=True))
             # pas hors map && pas d'obstacle
-            if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy, shrek=True):
-                print("Shrek move > dx:", dx, "dy:", dy, 'move random')
+            if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy, hydeShrek=True):
+                print("hydeShrek move > dx:", dx, "dy:", dy, 'move random')
                 self.x += dx
                 self.y += dy
 
                 return
-        # print("Shrek kéblo")
+        # print("hydeShrek kéblo")
         return
 
 
@@ -215,15 +215,15 @@ class Map:
         self.h = h
         self.w = w
         self.entities = []
-        self.shrek = None
+        self.hydeShrek = None
         self.nbChild = len(self.getPosChild())
         self.create_random_map()
 
     # Obstacle ou non
-    def can_move_to(self, x, y, shrek=False):
+    def can_move_to(self, x, y, hydeShrek=False):
         for e in self.entities:
             if e.x == x and e.y == y:
-                if shrek:
+                if hydeShrek:
                     # si c'est un enfant on peut y aller et ça mange
                     return e.id in [0, 1, 5, 6, 7, 8, 9,10, 11, 12, 13]
                 # s'il y a une entité, alors on retourne si elle est traversable ou non
@@ -251,13 +251,13 @@ class Map:
                     # generation d'enfant
                     self.entities.append(Child(i, j))
                     self.nbChild += 1
-                elif 0.4 <= random.random() <= 0.45 and self.shrek is None:
-                    # generation de shrek
-                    self.shrek = Shrek(i, j)
+                elif 0.4 <= random.random() <= 0.45 and self.hydeShrek is None:
+                    # generation de hydeShrek
+                    self.hydeShrek = hydeShrek(i, j)
                 elif 0.45 <= random.random() <= 0.55:
                     # genere de pont
                     self.entities.append(Bridge(i, j))
-        # print("map created:", self.shrek)
+        # print("map created:", self.hydeShrek)
 
     def show_map(self):
         carte = np.zeros((self.h, self.w), dtype=int)
@@ -265,7 +265,7 @@ class Map:
         for e in self.entities:
             carte[e.x, e.y] = e.id
 
-        carte[self.shrek.x, self.shrek.y] = self.shrek.id
+        carte[self.hydeShrek.x, self.hydeShrek.y] = self.hydeShrek.id
 
         for line in carte:
             for e in line:
@@ -274,15 +274,15 @@ class Map:
         print("")
 
     def move_entities(self):
-        xShrek, yShrek = self.shrek.getPos()
+        xhydeShrek, yhydeShrek = self.hydeShrek.getPos()
         #Bouge entities
         for entity in self.entities:
-            entity.move(self, xShrek, yShrek)
-        #Bouge shrek
-        self.shrek.move(self, children_positions=self.getPosChild())
-        self.shrek_eats_on(self.shrek.x, self.shrek.y)
+            entity.move(self, xhydeShrek, yhydeShrek)
+        #Bouge hydeShrek
+        self.hydeShrek.move(self, children_positions=self.getPosChild())
+        self.hydeShrek_eats_on(self.hydeShrek.x, self.hydeShrek.y)
 
-    def shrek_eats_on(self, x, y):
+    def hydeShrek_eats_on(self, x, y):
         for e in self.entities:
             if e.x == x and e.y == y:
                 e.death()
@@ -300,8 +300,12 @@ def main():
         map.move_entities()
         map.show_map()
         # time.sleep(1)
-
-    print(map.nbChild, "children left")
+    if map.nbChild == 0:
+        print("<===WIN===>")
+        print(map.nbChild, "children left")
+    else:
+        print("<===LOOSE===>")
+        print(map.nbChild, "children left")
 
 
 if __name__ == '__main__':
