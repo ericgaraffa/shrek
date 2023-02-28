@@ -91,7 +91,6 @@ class Child(Entity):
         for dx, dy in directions.values():
             # pas hors map && pas d'obstacle
             if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy):
-                # print("Move:", self.x, self.y, '->', self.x + dx, self.y + dy)
                 self.x += dx
                 self.y += dy
                 return
@@ -103,7 +102,6 @@ class Child(Entity):
     def death(self):
         if self.is_dead == 1:
             return
-        print("Enfant mort", self.x, self.y)
         self.is_dead = 1
         self.id = random.choice([10, 11, 12, 13])
         self.visuel = visuel[entities[self.id]]
@@ -128,7 +126,7 @@ class hydeShrek(Entity):
         return self.x, self.y
 
     def move(self, carte, xhydeShrek=None, yhydeShrek=None, children_positions=[]):
-        print("nb children =", len(children_positions))
+        # print("nb children =", len(children_positions))
         h, w = carte.h, carte.w
 
         if children_positions:
@@ -137,23 +135,23 @@ class hydeShrek(Entity):
 
             # le plus proche est le premier
             closest = children_positions[0]
-            print("> Enfant le plus proche en:", closest, "hydeShrek pos:", self.x, self.y)
+            # print("> Enfant le plus proche en:", closest, "hydeShrek pos:", self.x, self.y)
 
             # ecart à l'enfant
             dx = closest[0] - self.x
             dy = closest[1] - self.y
 
-            print("offset enfant:", dx, dy)
+            # print("offset enfant:", dx, dy)
 
             # meilleure direction:
             if abs(dx) > 0 and abs(dx) >= abs(dy):
                 # 1 || -1
                 dx = int(dx / abs(dx))
                 dy = 0
-                print("test move en ", self.x + dx, self.y + dy)
+                # print("test move en ", self.x + dx, self.y + dy)
                 if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy,
                                                                                        hydeShrek=True):
-                    print("hydeShrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
+                    # print("hydeShrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
                     self.x += dx
                     self.y += dy
                     return
@@ -162,10 +160,10 @@ class hydeShrek(Entity):
                 # 1 || -1
                 dx = 0
                 dy = int(dy / abs(dy))
-                print("test move en ", self.x + dx, self.y + dy)
+                # print("test move en ", self.x + dx, self.y + dy)
                 if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy,
                                                                                        hydeShrek=True):
-                    print("hydeShrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
+                    # print("hydeShrek move > dx:", dx, "dy:", dy, self.x, self.y, "->", self.x + dx, self.y + dy)
                     self.x += dx
                     self.y += dy
                     return
@@ -174,10 +172,9 @@ class hydeShrek(Entity):
         random.shuffle(l)
         for dx, dy in l:
             # print("check pos:", self.x + dx, self.y + dy,
-            #       0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy, hydeShrek=True))
             # pas hors map && pas d'obstacle
             if 0 <= self.x + dx < h and 0 <= self.y + dy < w and carte.can_move_to(self.x + dx, self.y + dy, hydeShrek=True):
-                print("hydeShrek move > dx:", dx, "dy:", dy, 'move random')
+                # print("hydeShrek move > dx:", dx, "dy:", dy, 'move random')
                 self.x += dx
                 self.y += dy
 
@@ -257,7 +254,6 @@ class Map:
                 elif 0.45 <= random.random() <= 0.55:
                     # genere de pont
                     self.entities.append(Bridge(i, j))
-        # print("map created:", self.hydeShrek)
 
     def show_map(self):
         carte = np.zeros((self.h, self.w), dtype=int)
